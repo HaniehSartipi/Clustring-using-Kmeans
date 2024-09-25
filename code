@@ -1,0 +1,235 @@
+import pandas as pd
+import numpy as np
+import random as rd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df=pd.read_csv('E:/Master/machine learning/exercise/breast-cancer(1).csv')
+df.head()
+
+df.isnull().sum()
+
+
+
+
+df_o =df[((df['deg-malig'] - df['deg-malig'].mean())/df['deg-malig'].std()).abs() < 3]
+
+print(df_o.shape)
+
+
+
+df.describe()
+
+
+
+sns.swarmplot(x="Class", y="inv-nodes", data=df)
+plt.grid()
+
+
+
+from scipy.spatial.distance import cdist
+from sklearn.cluster import KMeans
+
+
+
+#Implementing K-Means
+kmeans=KMeans(n_clusters=4)
+kmeans.fit(df)
+
+
+
+kmeans.cluster_centers_
+
+
+
+kmeans.labels_
+
+
+
+RecError=[]
+K=range(1,11)
+for k in K :
+    kmeanModel=KMeans(n_clusters=k).fit(df)
+    RecError.append(sum(np.min(cdist(df,
+                                       kmeanModel.cluster_centers_,'euclidean'),
+                                 axis=1)) / df.shape[0])
+print(RecError)    
+
+
+
+plt.plot(K,distortions,'bx-')
+
+
+
+km=KMeans(3,random_state=32)
+km.fit(df.values)
+
+
+
+df['cluster']=km.predict(df.values)
+df.head()
+
+
+
+fig,ax=plt.subplots()
+for clust in clust_map.values()
+
+
+
+WCSS = []
+
+for i in range(1,11):
+    model = KMeans(n_clusters = i)
+    model.fit(df)
+    WCSS.append(model.inertia_)
+    
+fig = plt.figure(figsize = (7,7))
+
+plt.plot(range(1,11),WCSS, linewidth=4, markersize=12,marker='o',color = 'red')
+
+plt.xticks(np.arange(11))
+plt.xlabel("Number of clusters")
+plt.ylabel("WCSS")
+
+plt.show()
+
+from sklearn import preprocessing
+
+scaler = preprocessing.StandardScaler()
+
+scaler.fit(df)
+X_scaled_array = scaler.transform(df)
+X_scaled = pd.DataFrame(X_scaled_array, columns = df.columns)
+
+X_scaled.sample(5)
+
+
+
+from sklearn.cluster import KMeans
+
+nclusters = 2
+seed = 0
+
+km = KMeans(n_clusters=nclusters, random_state=seed)
+km.fit(df)
+
+# predict the cluster for each data point
+y_cluster_kmeans = km.predict(df)
+y_cluster_kmeans
+
+
+
+
+X = df.loc[:, 'age':'irradiat'].values
+y = df.loc[:, 'Class'].values
+
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+pca=PCA().fit(X)
+eigenvalues = (pca.explained_variance_)
+prop_var = eigenvalues / np.sum(eigenvalues)
+plt.figure(figsize=(14,10))
+plt.plot(np.arange(1, len(prop_var)+1), 
+                   prop_var, marker='o',linewidth=3)
+plt.xlabel('Principal Component',
+           size = 20)
+plt.ylabel('Proportion of Variance Explained',
+           size = 20)
+plt.title(' Scree Plot ',
+          size = 25)
+plt.grid(True)
+
+
+
+from sklearn.decomposition import PCA
+pca=PCA(n_components=3)
+pca.fit(X)
+
+
+
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+
+
+
+xpca=pca.transform(X)
+xpca[:2]
+
+pd.DataFrame(X).describe()
+
+
+pca.components_
+
+
+
+#Kmeans on PCA
+pca=PCA(n_components=3)
+pca.fit(X)
+xpca=pca.transform(X)
+kmeans=KMeans(n_clusters=4)
+ycluster=kmeans.fit_predict(xpca)
+
+WCSS = []
+
+for i in range(1,11):
+    model = KMeans(n_clusters = i)
+    model.fit(xpca)
+    WCSS.append(model.inertia_)
+    
+fig = plt.figure(figsize = (7,7))
+
+plt.plot(range(1,11),WCSS, linewidth=4, markersize=12,marker='o',color = 'green')
+
+plt.xticks(np.arange(11))
+plt.xlabel("Number of clusters")
+plt.ylabel("WCSS")
+plt.show()
+
+RecError=[]
+K=range(1,11)
+for k in K :
+    kmeanModel=KMeans(n_clusters=k).fit(xpca)
+    RecError.append(sum(np.min(cdist(xpca,
+                                       kmeanModel.cluster_centers_,'euclidean'),
+                                 axis=1)) / xpca.shape[0])
+print(RecError)   
+
+kmeans=KMeans(n_clusters=3)
+kmeans.fit(X)
+
+kmeans.cluster_centers_
+
+
+kmeans.labels_
+
+
+
+pca=PCA(n_components=2)
+reduced_X=pd.DataFrame(data=pca.fit_transform(X),columns=['PCA1','PCA2'])
+reduced_X.head()
+
+
+
+centers=pca.transform(kmeans.cluster_centers_)
+centers
+
+
+
+plt.figure(figsize=(7,5))
+plt.scatter(reduced_X['PCA1'],reduced_X['PCA2'],c=kmeans.labels_)
+plt.scatter(centers[:,0],centers[:,1],marker='x',s=100,c='red')
+plt.xlabel('PCA1')
+plt.ylabel('PCA2')
+plt.title('Cancer Cluster')
+plt.tight_layout()
+
+
+
+
+pca.components_
+
+
+
+
+
